@@ -316,7 +316,7 @@ class Net1(nn.Module):
 
 
 Net1 = Net1(nombre_filtre).cuda()
-poids=torch.load('/home/lucas/Pycharm/pycharm-2018.1.4/bin/lucas_code_beginning/save/WN.pth.tar')
+poids=torch.load('/home/lucass/classif/classif/final.pth.tar')
 Net1.load_state_dict(poids)
 
 net = net.to(device)
