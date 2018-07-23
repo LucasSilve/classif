@@ -56,9 +56,9 @@ class MobileNet(nn.Module):
     cfg = [16, (32, 2), 32, 32, (64,2), 64,64,64,64,64,64,64,64]
     def __init__(self, num_classes=10):
         super(MobileNet, self).__init__()
-        self.conv1 = nn.Conv2d(channel,8 , kernel_size=3, stride=1, padding=1, bias=False)
-        self.bn1 = nn.BatchNorm2d(8)
-        self.layers = self._make_layers(in_planes=8)
+        self.conv1 = nn.Conv2d(16,16 , kernel_size=3, stride=1, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(16)
+        self.layers = self._make_layers(in_planes=16)
         self.linear = nn.Linear(1024, num_classes)
 
     def _make_layers(self, in_planes):
