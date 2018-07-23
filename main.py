@@ -77,7 +77,7 @@ class MobileNet(nn.Module):
 
 def test():
     net = MobileNet()
-    x = torch.randn(1,3,8,8)
+    x = torch.randn(1,16,8,8)
     y = net(x)
     print('testing :')
     print(y.size())
@@ -380,6 +380,8 @@ def train(epoch):
             aux = aux.item()
             inputs = inputs / aux
         compressedinputs = Net1(inputs)
+        pool = torch.nn.AvgPool2d(4, count_include_pad=False)
+        compressedinputs=pool(compressedinputs)
         outputs = net(compressedinputs)
         loss = criterion(outputs, targets)
         loss.backward()
