@@ -21,7 +21,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from torch.autograd import Variable
 
 
-#from utils import progress_bar
+from utils import progress_bar
 lum_seul=True
 if lum_seul:
     channel=1
