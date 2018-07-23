@@ -80,14 +80,14 @@ class MobileNet(nn.Module):
         return out
 
 
-def test():
+"""def test():
     net = MobileNet()
     x = torch.randn(1,16,8,8)
     y = net(x)
     print('testing :')
     print(y.size())
 
-test()
+test()"""
 
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
@@ -359,10 +359,10 @@ def train(epoch):
             aux = aux.item()
             inputs = inputs / aux
         compressedinputs = Net1(inputs)
-        print(compressedinputs.size())
+
         pool = torch.nn.AvgPool2d(2, count_include_pad=False)
         compressedinputs=pool(compressedinputs)
-        print(compressedinputs.size())
+
         outputs = net(compressedinputs)
         loss = criterion(outputs, targets)
         loss.backward()
