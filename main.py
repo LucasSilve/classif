@@ -285,7 +285,7 @@ phi_chap=pad(phi)
 phi_chap=fft2(phi_chap)
 phi_chap=fftshift(phi_chap)
 phi_chap=np.absolute(phi_chap)
-
+phi=torch.from_numpy(phi)
 
 avg=nn.Conv2d(nombre_filtre,nombre_filtre,kernel,bias=False,padding=padding_,groups=nombre_filtre)
 avg=avg.cuda()
