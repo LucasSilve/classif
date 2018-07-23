@@ -385,7 +385,19 @@ def test(epoch):
     with torch.no_grad():
         for batch_idx, (inputs, targets) in enumerate(testloader):
             inputs, targets = inputs.to(device), targets.to(device)
-            outputs = net(inputs)
+            if lum_seul:
+                inputs = torch.sum(inputs, 1, keepdim=True)
+                aux = torch.ones(1)
+                aux = 3 * aux
+                aux = torch.sqrt(aux)
+                aux = aux.item()
+                inputs = inputs / aux
+            compressedinputs = Net1(inputs)
+
+            pool = torch.nn.AvgPool2d(2, count_include_pad=False)
+            compressedinputs = pool(compressedinputs)
+
+            outputs = net(compressedinputs)
             loss = criterion(outputs, targets)
 
             test_loss += loss.item()
