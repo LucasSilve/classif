@@ -75,6 +75,7 @@ class MobileNet(nn.Module):
         out = self.layers(out)
         out = F.avg_pool2d(out, 2)
         out = out.view(out.size(0), -1)
+        print(out.size())
         out = self.linear(out)
         return out
 
