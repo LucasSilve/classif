@@ -53,13 +53,13 @@ class MobileNet(nn.Module):
     # (128,2) means conv planes=128, conv stride=2, by default conv stride=1
     #cfg = [64, (128,2), 128, (256,2), 256, (512,2), 512, 512, 512, 512, 512, (1024,2), 1024]
     #cfg = [64, (128, 2), 128, (256, 2), 256, (512, 2), 512, 512, 512, (1024, 2), 1024]
-    cfg = [16, (32, 2), 32, 32, (64,2), 64,64,64,64,64,64,64,64]
+    cfg = [16, (32, 2), 32, (64,2), 64,64,64,64,64,64,(128,2),128]
     def __init__(self, num_classes=10):
         super(MobileNet, self).__init__()
         self.conv1 = nn.Conv2d(16,16 , kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(16)
         self.layers = self._make_layers(in_planes=16)
-        self.linear = nn.Linear(64, num_classes)
+        self.linear = nn.Linear(128, num_classes)
 
     def _make_layers(self, in_planes):
         layers = []
@@ -360,7 +360,7 @@ def train(epoch):
             inputs = inputs / aux
         compressedinputs = Net1(inputs)
 
-        pool = torch.nn.AvgPool2d(4, count_include_pad=False)
+        pool = torch.nn.AvgPool2d(2, count_include_pad=False)
         compressedinputs=pool(compressedinputs)
         outputs = net(compressedinputs)
         loss = criterion(outputs, targets)
