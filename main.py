@@ -22,12 +22,16 @@ from torch.autograd import Variable
 
 
 #from utils import progress_bar
-
-channel_=3
-padding_=1
+lum_seul=True
+if lum_seul:
+    channel=1
+else: channel=3
+nombre_filtre=16
+padding_=5
 kernel=2*padding_+1
-imsize=32
-num_classes=10
+learning_rate=0.05
+lambda_regular=1
+
 
 
 class Block(nn.Module):
@@ -238,17 +242,7 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=batch,
                                          shuffle=False, num_workers=2)
 
 
-#initialisation
 
-lum_seul=True
-if lum_seul:
-    channel=1
-else: channel=3
-nombre_filtre=16
-padding_=5
-kernel=2*padding_+1
-learning_rate=0.05
-lambda_regular=1
 
 
 def pad(f):                                         #effectue un padding pour le filtre pour pouvoir faire la transformee de Fourier
@@ -380,6 +374,7 @@ def train(epoch):
             aux = aux.item()
             inputs = inputs / aux
         compressedinputs = Net1(inputs)
+        print(compressedinputs.size())
         pool = torch.nn.AvgPool2d(4, count_include_pad=False)
         compressedinputs=pool(compressedinputs)
         outputs = net(compressedinputs)
