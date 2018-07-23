@@ -286,22 +286,6 @@ phi_chap=fft2(phi_chap)
 phi_chap=fftshift(phi_chap)
 phi_chap=np.absolute(phi_chap)
 
-fig, (ax1, ax2) = plt.subplots(ncols=2)
-
-img1 = ax1.imshow(phi)
-colorbar(img1)
-
-img2 = ax2.imshow(phi_chap)
-colorbar(img2)
-plt.tight_layout(h_pad=1)
-plt.show()
-
-
-print('ok')
-phi=torch.from_numpy(phi)
-print(torch.sum(phi))
-phi=phi/torch.sum(phi)
-
 
 avg=nn.Conv2d(nombre_filtre,nombre_filtre,kernel,bias=False,padding=padding_,groups=nombre_filtre)
 avg=avg.cuda()
