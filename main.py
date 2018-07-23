@@ -279,7 +279,7 @@ def gabor_2d(M, N, sigma, theta, xi, slant=1.0, offset=0, fft_shift=None):
         gab = np.fft.fftshift(gab, axes=(0, 1))
     return gab
 
-phi=gabor_2d(kernel,kernel,3,0,0,fft_shift=False,offset=-padding_)
+phi=gabor_2d(kernel,kernel,3.5,0,0,fft_shift=False,offset=-padding_)
 phi=np.absolute(phi)
 phi_chap=pad(phi)
 phi_chap=fft2(phi_chap)
@@ -359,9 +359,10 @@ def train(epoch):
             aux = aux.item()
             inputs = inputs / aux
         compressedinputs = Net1(inputs)
-
+        print(compressedinputs.size())
         pool = torch.nn.AvgPool2d(2, count_include_pad=False)
         compressedinputs=pool(compressedinputs)
+        print(compressedinputs.size())
         outputs = net(compressedinputs)
         loss = criterion(outputs, targets)
         loss.backward()
