@@ -251,7 +251,7 @@ learning_rate=0.05
 lambda_regular=1
 
 
-def pad(f):                                         #effectue un padding pour le filtre pour pouvoir faire la transformée de Fourier
+def pad(f):                                         #effectue un padding pour le filtre pour pouvoir faire la transformee de Fourier
     out=np.zeros((32,32), dtype=complex)
     out[15-padding_:16+padding_,15-padding_:16+padding_]=f
     return out
