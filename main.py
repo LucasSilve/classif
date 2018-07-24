@@ -57,9 +57,9 @@ class MobileNet(nn.Module):
 
     def __init__(self, num_classes=10):
         super(MobileNet, self).__init__()
-        self.conv1 = nn.Conv2d(16,16 , kernel_size=3, stride=1, padding=1, bias=False)
-        self.bn1 = nn.BatchNorm2d(16)
-        self.layers = self._make_layers(in_planes=16)
+        self.conv1 = nn.Conv2d(48,48 , kernel_size=3, stride=1, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(48)
+        self.layers = self._make_layers(in_planes=48)
         self.linear = nn.Linear(1024, num_classes)
 
     def _make_layers(self, in_planes):
@@ -353,20 +353,20 @@ def train(epoch):
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         inputs, targets = inputs.to(device), targets.to(device)
         optimi.zero_grad()
-        if lum_seul:
+        """if lum_seul:
             inputs = torch.sum(inputs, 1, keepdim=True)
             aux = torch.ones(1)
             aux = 3 * aux
             aux = torch.sqrt(aux)
             aux = aux.item()
-            inputs = inputs / aux
-        """compressedinputs=torch.zeros(128,3*nombre_filtre,32,32)
+            inputs = inputs / aux"""
+        compressedinputs=torch.zeros(128,3*nombre_filtre,32,32)
         for c in range(0,nombre_filtre):
             compressedinputs[:,0:nombre_filtre,:,:]=Net1(torch.unsqueeze(inputs[:,0,:,:],1))
             compressedinputs[:,nombre_filtre:2*nombre_filtre,:,:]=Net1(torch.unsqueeze(inputs[:,1,:,:],1))
-            compressedinputs[:,2*nombre_filtre:3*nombre_filtre,:,:]=Net1(torch.unsqueeze(inputs[:,2,:,:],1))"""
+            compressedinputs[:,2*nombre_filtre:3*nombre_filtre,:,:]=Net1(torch.unsqueeze(inputs[:,2,:,:],1))
 
-        compressedinputs = Net1(inputs)
+        #compressedinputs = Net1(inputs)
 
         #pool = torch.nn.AvgPool2d(2, count_include_pad=False)
         #compressedinputs=pool(compressedinputs)
@@ -393,20 +393,20 @@ def test(epoch):
     with torch.no_grad():
         for batch_idx, (inputs, targets) in enumerate(testloader):
             inputs, targets = inputs.to(device), targets.to(device)
-            if lum_seul:
+            """if lum_seul:
                 inputs = torch.sum(inputs, 1, keepdim=True)
                 aux = torch.ones(1)
                 aux = 3 * aux
                 aux = torch.sqrt(aux)
                 aux = aux.item()
-                inputs = inputs / aux
-            """compressedinputs=torch.zeros(128,3*nombre_filtre,32,32)
+                inputs = inputs / aux"""
+            compressedinputs=torch.zeros(128,3*nombre_filtre,32,32)
             for c in range(0,nombre_filtre):
                 compressedinputs[:,0:nombre_filtre,:,:]=torch.unsqueeze(Net1(inputs[:,0,:,:]),1)
                 compressedinputs[:,nombre_filtre:2*nombre_filtre,:,:]=torch.unsqueeze(Net1(inputs[:,1,:,:]),1)
-                compressedinputs[:,2*nombre_filtre:3*nombre_filtre,:,:]=torch.unsqueeze(Net1(inputs[:,2,:,:]),1)"""
+                compressedinputs[:,2*nombre_filtre:3*nombre_filtre,:,:]=torch.unsqueeze(Net1(inputs[:,2,:,:]),1)
 
-            compressedinputs = Net1(inputs)
+            #compressedinputs = Net1(inputs)
 
             #pool = torch.nn.AvgPool2d(2, count_include_pad=False)
             #compressedinputs = pool(compressedinputs)
