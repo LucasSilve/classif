@@ -227,7 +227,7 @@ class Net(nn.Module):
 #net=Net(Block,[2,2,2,5,10])
 
 
-batch=1
+"""batch=1
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -243,7 +243,7 @@ testset = torchvision.datasets.CIFAR10(root='./data', train=False,
                                        download=True, transform=transform)
 
 testloader = torch.utils.data.DataLoader(testset, batch_size=batch,
-                                         shuffle=False, num_workers=2)
+                                         shuffle=False, num_workers=2)"""
 
 
 
