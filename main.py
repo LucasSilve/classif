@@ -51,9 +51,10 @@ class Block(nn.Module):
 
 class MobileNet(nn.Module):
     # (128,2) means conv planes=128, conv stride=2, by default conv stride=1
-    #cfg = [64, (128,2), 128, (256,2), 256, (512,2), 512, 512, 512, 512, 512, (1024,2), 1024]
+    cfg = [64, (128,2), 128, (256,2), 256, (512,2), 512, 512, 512, 512, 512, (1024,2), 1024]
     #cfg = [64, (128, 2), 128, (256, 2), 256, (512, 2), 512, 512, 512, (1024, 2), 1024]
-    cfg = [64, (128, 2), 128, (256,2), 256,256,256,256,256,256,(512,2),512]
+    ##cfg = [64, (128, 2), 128, (256,2), 256,256,256,256,256,256,(512,2),512]
+
     def __init__(self, num_classes=10):
         super(MobileNet, self).__init__()
         self.conv1 = nn.Conv2d(16,16 , kernel_size=3, stride=1, padding=1, bias=False)
@@ -352,17 +353,23 @@ def train(epoch):
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         inputs, targets = inputs.to(device), targets.to(device)
         optimi.zero_grad()
-        if lum_seul:
+        """if lum_seul:
             inputs = torch.sum(inputs, 1, keepdim=True)
             aux = torch.ones(1)
             aux = 3 * aux
             aux = torch.sqrt(aux)
             aux = aux.item()
-            inputs = inputs / aux
-        compressedinputs = Net1(inputs)
+            inputs = inputs / aux"""
+        compressedinputs=torch.zeros(128,3*nombre_filtre,32,32)
+        for c in range(0,nombre_filtre):
+            compressedinputs[:,0:nombre_filtre,:,:]=Net1(torch.unsqueeze(inputs[:,0,:,:],1))
+            compressedinputs[:,nombre_filtre:2*nombre_filtre,:,:]=Net1(torch.unsqueeze(inputs[:,1,:,:],1))
+            compressedinputs[:,2*nombre_filtre:3*nombre_filtre,:,:]=Net1(torch.unsqueeze(inputs[:,2,:,:],1))
 
-        pool = torch.nn.AvgPool2d(2, count_include_pad=False)
-        compressedinputs=pool(compressedinputs)
+        #compressedinputs = Net1(inputs)
+
+        #pool = torch.nn.AvgPool2d(2, count_include_pad=False)
+        #compressedinputs=pool(compressedinputs)
 
         outputs = net(compressedinputs)
         loss = criterion(outputs, targets)
