@@ -79,7 +79,6 @@ class MobileNet(nn.Module):
         out = out.view(out.size(0), -1)
 
         out = self.linear(out)
-        print('size output',out.size())
         return out
 
 
@@ -353,7 +352,6 @@ def train(epoch):
     total = 0
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         inputs, targets = inputs.to(device), targets.to(device)
-        print('target size',targets.size())
         optimi.zero_grad()
         """if lum_seul:
             inputs = torch.sum(inputs, 1, keepdim=True)
